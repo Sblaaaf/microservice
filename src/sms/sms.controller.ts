@@ -1,13 +1,14 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
 import { SmsService } from './sms.service';
 import { CreateSmDto } from './dto/create-sm.dto';
 
-@Controller('sms')
+@Controller()
 export class SmsController {
-  constructor(private readonly smsService: SmsService) {}
+  constructor(private readonly smsService: SmsService) { }
 
-  @Post()
-  create(@Body() createSmDto: CreateSmDto) {
+  @EventPattern('send_sms')
+  create(createSmDto: CreateSmDto) {
     return this.smsService.create(createSmDto);
   }
 }

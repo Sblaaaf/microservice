@@ -1,13 +1,20 @@
-// test.controller.ts
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
 import { MailService } from './mail.service';
 
-@Controller('test')
+@Controller()
 export class TestController {
-  constructor(private readonly mailService: MailService) {}
+  constructor(private readonly mailService: MailService) { }
 
-  @Get('mail')
-  async sendMail(@Query('email') email: string) {
-    return await this.mailService.sendTestEmail(email);
+  @EventPattern('send_mail')
+  async sendMail(data: { email: string; subject?: string; html?: string }) {
+    if (data.subject || data.html) {
+      return await this.mailService.sendEmail(
+        data.email,
+        data.subject || 'No Subject',
+        data.html || '<p>No Content</p>',
+      );
+    }
+    return await this.mailService.sendTestEmail(data.email);
   }
 }
