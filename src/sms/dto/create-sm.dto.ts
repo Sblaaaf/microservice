@@ -1,1 +1,1 @@
-export class CreateSmDto {}
+export class CreateSmDto { }
