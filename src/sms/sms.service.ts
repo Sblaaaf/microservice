@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSmDto } from './dto/create-sm.dto';
-import { UpdateSmDto } from './dto/update-sm.dto';
+import { Injectable, Logger } from '@nestjs/common';
+import { CreateSmsDto } from './dto/create-sms.dto';
+import { UpdateSmsDto } from './dto/update-sms.dto';
 
 @Injectable()
 export class SmsService {
-  create(createSmDto: CreateSmDto) {
+  private readonly logger = new Logger(SmsService.name);
+
+  create(createSmsDto: CreateSmsDto) {
+    this.logger.log(`Sending SMS to ${createSmsDto.phoneNumber}`);
     return 'This action adds a new sm';
   }
 
@@ -16,7 +19,7 @@ export class SmsService {
     return `This action returns a #${id} sm`;
   }
 
-  update(id: number, updateSmDto: UpdateSmDto) {
+  update(id: number, updateSmsDto: UpdateSmsDto) {
     return `This action updates a #${id} sm`;
   }
 

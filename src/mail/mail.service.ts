@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Resend } from 'resend';
 
 import { ConfigService } from '@nestjs/config';
@@ -7,6 +7,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class MailService {
+  private readonly logger = new Logger(MailService.name);
   private resend: Resend;
 
   constructor(private configService: ConfigService) {
@@ -15,7 +16,7 @@ export class MailService {
 
   @OnEvent('app.event')
   async handleAppEvent(payload: any) {
-    console.log('[MailService] Received event:', JSON.stringify(payload));
+    this.logger.log(`[MailService] Received event: ${JSON.stringify(payload)}`);
     const email = payload.email || 'wessim.harmel@gmail.com'; // Default or from payload
     const type = payload.type || 'UNKNOWN';
 
@@ -47,10 +48,10 @@ export class MailService {
         subject,
         html,
       });
-      console.log('Email sent successfully:', response);
+      this.logger.log(`Email sent successfully: ${JSON.stringify(response)}`);
       return response;
     } catch (error) {
-      console.error('Failed to send email:', error);
+      this.logger.error('Failed to send email:', error);
       throw error;
     }
   }
