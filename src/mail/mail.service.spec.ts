@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { CreateMailDto } from './dto/create-mail.dto';
 import { validate } from 'class-validator';
 
-// On "mock" (simule) l'API Resend pour que les tests ne consomment pas ton vrai quota de mails
+// On "mock" API Resend pour que les tests ne consomment pas ton vrai quota de mails
 const mockSend = jest.fn();
 jest.mock('resend', () => {
     return {

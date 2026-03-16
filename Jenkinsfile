@@ -6,7 +6,6 @@ pipeline {
     }
 
     environment {
-        // On récupère la clé API cachée en sécurité dans Jenkins
         RESEND_API_KEY = credentials('RESEND_API_KEY_SECRET')
     }
 
@@ -34,14 +33,20 @@ pipeline {
                 sh 'npm run test:e2e'
             }
         }
+
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
     }
 
     post {
         success {
-            echo '✅ Tous les tests sont passés avec succès !'
+            echo 'Tests réalisés avec succès !'
         }
         failure {
-            echo '❌ Échec de la pipeline.'
+            echo 'Échec de la pipeline.'
         }
     }
 }
