@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     tools {
-        // On demandera à Jenkins d'utiliser Node.js version 20 (pour éviter les warnings de tout à l'heure)
-        nodejs 'NodeJS 20'
+        nodejs 'NodeJS 25'
     }
 
     environment {
